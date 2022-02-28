@@ -4,14 +4,15 @@
   <meta charset="UTF-8">
   <title>Document</title>
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-  <link rel="stylesheet" href="/cssstyle.css" type="text/css">
-<link rel="stylesheet" href="/cssstyle2.css">
-
+  <link rel="stylesheet" href="css/style.css" type="text/css">
+<link rel="stylesheet" href="css/style2.css">
+<script src="js/jquery-3.4.1.min.js"></script>
+<script src="js/jquery.mousewheel.min.js"></script>
   
  </head>
  <body>
  <!-- 로고부분 -->
-	<h1><img src="img/logo.png" alt=""></h1>
+	<h1>Javascript</h1>
 <!-- 로고부분 /-->
 <!-- 상단sns부분 -->
 	<ul id="sns">
@@ -22,6 +23,8 @@
 <!-- 상단sns부분 /-->
 <!-- 왼쪽메뉴부분 -->
 	<ul id="menu">
+		<li><a href="#">basketball game</a></li>
+		<li><a href="#">jump game</a></li>
 		<li><a href="#">Full Blossom</a></li>
 		<li><a href="#">Be Colorful</a></li>
 		<li><a href="#">Time on Board</a></li>
@@ -33,24 +36,69 @@
 	<div id="wrap">
 	<!--첫 번째 영역-->
 		<section>
+			<div id="wrap1">
+				<!--점수판-->
+				<!--
+					   shorts-left -> 남은 슛 횟수
+					   computer-score -> 컴퓨터 현재 점수
+					   user-score -> 사용자 현재 점수
+					   text -> 안내문구
+				-->
+						<div class="div-scoreboard inner">
+							<div class="div-short-left">
+								<span>남은 슛 횟수</span>
+								<span id="shorts-left">15</span>
+							</div>
+							<div class="div-score">
+								 <div class="div-score-list">
+									<div class="div-score-name">컴퓨터</div>
+									<div id="computer-score" class="div-score-number">0</div>
+								 </div>
+								 <div class="div-score-list">
+									<div class="div-score-name">사람</div>
+									<div id="user-score" class="div-score-number">0</div>
+								 </div>   
+							</div>
+							<div id="text">컴퓨터부터 시작합니다.</div>
+						</div>
+				<!--조작부-->
+						<div class="div-control-panel">
+							<div id="div-computer" class="div-panel">
+								<div>컴퓨터</div>
+								<button onclick="onComputerShoot()" class="btn-computer">슛하기</button>
+							</div>
+							<div id="div-user" class="div-panel">
+								<div>사용자</div>
+								<button class="btn-user" onclick="onUserShoot(2)" disabled>2점슛</button>
+								<button  class="btn-user" onclick="onUserShoot(3)" disabled>3점슛</button>
+							</div>
+						</div>
+					</div>
+		</section>
+	<!--두 번째 영역-->
+		<section>
+			<canvas id="canvas"></canvas>
+		</section>
+	<!--세 번째 영역-->
+		<section>
 			<article>
 				<h2>Full Blossom</h2>
 				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
 			</article>
-			<img src="img/obj11.png" alt="" class="img11">
-			<img src="img/obj12.png" alt="" class="img12">
-			<img src="img/obj13.png" alt="" class="img13">
+			<img src="img/obj11.png" alt="img11">
+			<img src="img/obj12.png" alt="img12">
+			<img src="img/obj13.png" alt="img13">
 		</section>
-	<!--두 번째 영역-->
+	<!--네 번째 영역-->
 		<section>
 			<article>
 				<h2>Be Colorful</h2>
 				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
 			</article>
-			<img src="img/obj21.png" alt="" class="img21">
-			<img src="img/obj22.png" alt="" class="img22">
+			<img src="img/obj21.png" alt="img21">
+			<img src="img/obj22.png" alt="img22">
 		</section>
-	<!--세 번째 영역-->
+	<!--다섯 번째 영역-->
 		<section>
 			<article>
 				<h2>Time on Board</h2>
@@ -60,7 +108,7 @@
 			<img src="img/obj32.png" alt="" class="img32">
 			<img src="img/obj33.png" alt="" class="img33">
 		</section>
-	<!--네 번째 영역-->
+	<!--여섯 번째 영역-->
 		<section>
 			<article>
 				<h2>Shiny Addict</h2>
@@ -70,5 +118,57 @@
 			<img src="img/obj42.png" alt="" class="img42">
 		</section>
 	</div>
+	<script>
+		$(document).ready(function(){
+			let sections = $('section');
+			console.log(sections);
+			$(window).on('scroll',function(){
+				let sct = $(this).scrollTop();
+			
+			})
+			sections.on('mousewheel',function(e, delta){
+				if(delta>0){
+					console.log('마우스휠을 올렸습니다.');
+					let prevTop = $(this).prev().offset().top;
+					$('html, body').stop().animate({scrollTop:prevTop},1000);
+				}else {
+					console.log('마우스휠을 내렸습니다.');
+					let nextTop = $(this).next().offset().top;
+					console.log(nextTop);
+					$('html, body').stop().animate({scrollTop:nextTop},1000);
+				}
+			})
+
+		})
+		let winh = window.innerHeight;
+		const lis = document.querySelectorAll('#menu li');
+
+		lis[0].addEventListener('click',function(e){
+			window.scrollTo({top:0,behavior:'smooth'});
+			e.preventDefault();
+		})
+		lis[1].addEventListener('click',function(e){
+			window.scrollTo({top:1*winh,behavior:'smooth'});
+			e.preventDefault();
+		})
+		lis[2].addEventListener('click',function(e){
+			window.scrollTo({top:2*winh,behavior:'smooth'});
+			e.preventDefault();
+		})
+		lis[3].addEventListener('click',function(e){
+			window.scrollTo({top:3*winh,behavior:'smooth'});
+			e.preventDefault();
+		})
+		lis[4].addEventListener('click',function(e){
+			window.scrollTo({top:4*winh,behavior:'smooth'});
+			e.preventDefault();
+		})
+		lis[5].addEventListener('click',function(e){
+			window .scrollTo({top:5*winh,behavior:'smooth'});
+			e.preventDefault();
+		})
+	</script>
+    <script src="js/main.js"></script>
+	<script src="js/script.js"></script>
  </body>
 </html>
